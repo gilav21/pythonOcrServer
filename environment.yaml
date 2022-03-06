@@ -9,6 +9,11 @@ dependencies:
   - ca-certificates=2022.2.1
   - certifi=2021.10.8
   - cffi=1.15.0
+  - click=8.0.4
+  - colorama=0.4.4
+  - dataclasses=0.8
+  - flask=2.0.2
+  - flask_cors=3.0.10
   - freeglut=3.2.2
   - freetype=2.10.4
   - future=0.18.2
@@ -17,8 +22,10 @@ dependencies:
   - greenlet=1.1.1
   - icu=68.2
   - intel-openmp=2022.0.0
+  - itsdangerous=2.0.1
   - jasper=2.0.33
   - jbig=2.1
+  - jinja2=3.0.2
   - jpeg=9e
   - lcms2=2.12
   - leptonica=1.78.0
@@ -48,6 +55,7 @@ dependencies:
   - m2w64-gmp=6.1.0
   - m2w64-libwinpthread-git=5.0.0.4634.697f757
   - macholib=1.14
+  - markupsafe=2.0.1
   - mkl=2022.0.0
   - msys2-conda-epoch=20160418
   - numpy=1.22.2
@@ -82,6 +90,7 @@ dependencies:
   - tzdata=2021e
   - vc=14.2
   - vs2015_runtime=14.27.29016
+  - werkzeug=2.0.3
   - wheel=0.37.1
   - whichcraft=0.6.1
   - wincertstore=0.2
@@ -93,4 +102,3 @@ dependencies:
   - zope.event=4.5.0
   - zope.interface=5.4.0
   - zstd=1.5.2
-  - gunicorn
