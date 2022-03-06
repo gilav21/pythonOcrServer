@@ -1,7 +1,6 @@
 # import the necessary packages
 import re
 
-import numpy as np
 import pytesseract
 from pytesseract import Output
 
