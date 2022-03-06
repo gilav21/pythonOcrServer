@@ -9,7 +9,6 @@ import cv2
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-
 @app.route('/')
 def hello_world():
     return 'Hello World'
@@ -29,4 +28,5 @@ def getTextFromImagePath():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(debug=True, port=port)
