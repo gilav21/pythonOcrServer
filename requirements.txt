@@ -1,40 +1,92 @@
-auto-py-to-exe==2.17.0
-bottle==0.12.19
-bottle-websocket==0.2.9
-certifi==2021.10.8
-cffi==1.15.0
-click @ file:///C:/ci/click_1646038595831/work
-colorama @ file:///tmp/build/80754af9/colorama_1607707115595/work
-Eel==0.12.4
-Flask @ file:///tmp/build/80754af9/flask_1634118196080/work
-Flask-Cors @ file:///tmp/build/80754af9/flask-cors_1609957731919/work
-future @ file:///C:/ci/future_1607568713721/work
-gevent==21.12.0
-gevent-websocket==0.10.1
-greenlet==1.1.2
-itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
-Jinja2 @ file:///tmp/build/80754af9/jinja2_1635780242639/work
-macholib @ file:///home/linux1/recipes/ci/macholib_1611055836792/work
-MarkupSafe @ file:///C:/ci/markupsafe_1621528502553/work
-numpy @ file:///D:/bld/numpy_1643959111320/work
-opencv-python==4.5.5
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1637239678211/work
-pandas @ file:///C:/ci/pandas_1618365625310/work
-pefile==2019.4.18
-Pillow @ file:///D:/bld/pillow_1645323413835/work
-pycparser==2.21
-pycryptodome @ file:///C:/ci/pycryptodome_1641468918095/work
-pyinstaller @ file:///C:/ci/pyinstaller_1645412391524/work
-pyinstaller-hooks-contrib==2022.2
-pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1642753572664/work
-pytesseract @ file:///home/conda/feedstock_root/build_artifacts/pytesseract_1643232933150/work
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
-pytz==2021.3
-pywin32==302
-pywin32-ctypes @ file:///C:/ci/pywin32-ctypes_1607553594546/work
-six @ file:///tmp/build/80754af9/six_1644875935023/work
-Werkzeug @ file:///opt/conda/conda-bld/werkzeug_1645628268370/work
-whichcraft==0.6.1
-wincertstore==0.2
-zope.event==4.5.0
-zope.interface==5.4.0
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: win-64
+altgraph=0.17=pyhd3eb1b0_0
+bzip2=1.0.8=h8ffe710_4
+ca-certificates=2022.2.1=haa95532_0
+certifi=2021.10.8=py39haa95532_2
+cffi=1.15.0=py39h2bbff1b_1
+freeglut=3.2.2=h0e60522_1
+freetype=2.10.4=h546665d_1
+future=0.18.2=py39haa95532_1
+gevent=21.8.0=py39h2bbff1b_1
+gevent-websocket=0.10.1=py39haa95532_1
+greenlet=1.1.1=py39hd77b12b_0
+icu=68.2=h0e60522_0
+intel-openmp=2022.0.0=h57928b3_3663
+jasper=2.0.33=h77af90b_0
+jbig=2.1=h8d14728_2003
+jpeg=9e=h8ffe710_0
+lcms2=2.12=h2a16943_0
+leptonica=1.78.0=h688788b_4
+lerc=3.0=h0e60522_0
+libarchive=3.5.2=hb45042f_1
+libblas=3.9.0=13_win64_mkl
+libcblas=3.9.0=13_win64_mkl
+libclang=11.1.0=default_h5c34c98_1
+libdeflate=1.10=h8ffe710_0
+libiconv=1.16=he774522_0
+liblapack=3.9.0=13_win64_mkl
+liblapacke=3.9.0=13_win64_mkl
+libopencv=4.5.5=py39h606fa8f_2
+libpng=1.6.37=h1d00b33_2
+libprotobuf=3.19.4=h7755175_0
+libtiff=4.3.0=hc4061b1_3
+libwebp=1.2.2=h57928b3_0
+libwebp-base=1.2.2=h8ffe710_1
+libxcb=1.13=hcd874cb_1004
+libxml2=2.9.12=hf5bbc77_1
+libzlib=1.2.11=h8ffe710_1013
+lz4-c=1.9.3=h8ffe710_1
+lzo=2.10=he774522_1000
+m2w64-gcc-libgfortran=5.3.0=6
+m2w64-gcc-libs=5.3.0=7
+m2w64-gcc-libs-core=5.3.0=7
+m2w64-gmp=6.1.0=2
+m2w64-libwinpthread-git=5.0.0.4634.697f757=2
+macholib=1.14=pyhd3eb1b0_1
+mkl=2022.0.0=h0e2418a_796
+msys2-conda-epoch=20160418=1
+numpy=1.22.2=py39h6331f09_0
+opencv=4.5.5=py39hcbf5309_2
+openjpeg=2.4.0=hb211442_1
+openssl=1.1.1m=h2bbff1b_0
+packaging=21.3=pyhd8ed1ab_0
+pandas=1.2.4=py39hd77b12b_0
+pefile=2019.4.18=py_0
+pillow=9.0.1=py39ha53f419_2
+pip=21.2.4=py39haa95532_0
+pthread-stubs=0.4=hcd874cb_1001
+py-opencv=4.5.5=py39h832f523_2
+pycparser=2.21=pyhd3eb1b0_0
+pycryptodome=3.12.0=py39h2bbff1b_0
+pyinstaller=4.8=py39h8cc25b3_0
+pyparsing=3.0.7=pyhd8ed1ab_0
+pytesseract=0.3.9=pyhd8ed1ab_0
+python=3.9.7=h6244533_1
+python-dateutil=2.8.1=py_0
+python_abi=3.9=2_cp39
+pytz=2021.3=pyhd3eb1b0_0
+pywin32=302=py39h827c3e9_1
+pywin32-ctypes=0.2.0=py39haa95532_1000
+qt=5.12.9=h5909a2a_4
+setuptools=58.0.4=py39haa95532_0
+six=1.15.0=py_0
+sqlite=3.37.2=h2bbff1b_0
+tbb=2021.5.0=h2d74725_0
+tesseract=4.1.1=h8c00e3c_4
+tk=8.6.12=h8ffe710_0
+tzdata=2021e=hda174b7_0
+vc=14.2=h21ff451_1
+vs2015_runtime=14.27.29016=h5e58377_2
+wheel=0.37.1=pyhd3eb1b0_0
+whichcraft=0.6.1=pyhd3eb1b0_0
+wincertstore=0.2=py39haa95532_2
+xorg-libxau=1.0.9=hcd874cb_0
+xorg-libxdmcp=1.1.3=hcd874cb_0
+xz=5.2.5=h62dcd97_1
+zlib=1.2.11=h8ffe710_1013
+zope=1.0=py39haa95532_1
+zope.event=4.5.0=py39haa95532_0
+zope.interface=5.4.0=py39h2bbff1b_0
+zstd=1.5.2=h6255e5f_0
