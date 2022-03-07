@@ -37,6 +37,7 @@ def preprocessImage(img):
 
 
 def getTextFromImage(img, config="--psm 12", name=True):
+    print('tesseract version', pytesseract.get_tesseract_version())
     if name:
         img = cv2.imread(img)
     img = img[550: -300, 1200: -265]  # will change to more dynamic setting
