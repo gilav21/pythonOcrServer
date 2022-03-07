@@ -18,7 +18,8 @@ def hello_world():
 def getTextFromImagePath():
     # image = request.files['file'];
     # convert string of image data to uint8
-    nparr = np.fromstring(request.data, np.uint8)
+    # nparr = np.fromstring(request.data, np.uint8)
+    nparr = np.frombuffer(request.data, np.uint8)
     # decode image
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     # image.save('hours')
