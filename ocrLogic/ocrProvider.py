@@ -36,7 +36,7 @@ def preprocessImage(img):
     return img
 
 
-def getTextFromImage(img, config="--psm 12", name=True):
+def getTextFromImage(img, config=r'--tessdata-dir "ocrLogic/tessdata" --psm 12', name=True):
     print('tesseract version', pytesseract.get_tesseract_version())
     if name:
         img = cv2.imread(img)
@@ -183,3 +183,5 @@ def getBoxes(imageName, padding=7, show=False, filters=[]):
 #     # print('===========================================================================================================')
 #     # cropAndExtract(filePath)
 #     # getBoxes(filePath, show=True, filters=[preprocess.biFilter, preprocess.sharpen])
+
+
