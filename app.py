@@ -22,9 +22,10 @@ def getTextFromImagePath():
     nparr = np.frombuffer(request.data, np.uint8)
     # decode image
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    # image.save('hours')
-    textList = getTextFromImage(image, name=False)
+    cv2.imwrite('hours.png', image)
+    textList = getTextFromImage('hours.png', name=True)
     text = listToText(textList)
+    os.remove('hours.png')
     return text
 
 
