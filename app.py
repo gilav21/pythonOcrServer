@@ -25,7 +25,7 @@ def getTextFromImagePath():
     cv2.imwrite('hours.png', image)
     textList = getTextFromImage('hours.png', name=True)
     text = listToText(textList)
-    os.remove('hours.png')
+    # os.remove('hours.png')
     return text
 
 

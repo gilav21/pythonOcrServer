@@ -93,10 +93,12 @@ def exportToTxt(textList):
 
 def listToText(textList):
     text = ""
+    print('text list' , textList)
     for i in range(0, len(textList)):
-        text += f"{textList[i][2]}={textList[i][1]}-{textList[i][0]}"
-        if i < len(textList) - 1:
-            text += "\n"
+        if len(textList[i]) == 3:
+            text += f"{textList[i][2]}={textList[i][1]}-{textList[i][0]}"
+            if i < len(textList) - 1:
+                text += "\n"
     return text
 
 
