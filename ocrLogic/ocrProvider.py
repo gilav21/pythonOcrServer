@@ -1,6 +1,7 @@
 # import the necessary packages
 import re
 
+import numpy
 import pytesseract
 from pytesseract import Output
 
@@ -19,9 +20,10 @@ def getNumOnly(s):
 def isIndex(item):
     return re.search("^\d{2}$", item)
 
-
 def removeExcess(item):
-    if isIndex(item):
+    if isinstance(item, float) and numpy.isnan(item):
+        return None
+    elif isIndex(item):
         return item
     else:
         splitedItem = item.split(':')
@@ -36,18 +38,44 @@ def preprocessImage(img):
     return img
 
 
-def getTextFromImage(img, config=r'--tessdata-dir "ocrLogic/tessdata" --psm 12', name=True):
+def findColumnByStr(ds, columns, cutting_str):
+    data = ds.text.values
+    val = 0
+    for i in range(len(data)):
+        if data[i] == cutting_str:
+            print('found it !')
+            val = 0
+            for column in columns:
+                val += ds[column].values[i]
+    return val
+
+def getTextFromImage(img, config="--psm 12", name=True):
     print('tesseract version', pytesseract.get_tesseract_version())
     if name:
         img = cv2.imread(img)
-    img = img[550: -300, 1200: -265]  # will change to more dynamic setting
-    img = preprocessImage(img)
+    # img = img[550: -300, 1200: -265]  # will change to more dynamic setting
+    # cv2.imwrite('temp2.png', img)
+    try :
+        img = preprocessImage(img)
+    except :
+        print('Error In preprocess... , running without pre processing')
+
+    d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, config=config, lang="heb")
+    delta = 10
+    indexTop = findColumnByStr(d, ["top", "height"], "יום")
+    indexRight = findColumnByStr(d, ["left", "width"], "יום") + delta
+    indexLeft = findColumnByStr(d, ["left", "width"], "עד")
+    # delta = 60
+    # indexTop = findColumnByStr(d, ["top"], "יום") + delta
+    # indexRight = findColumnByStr(d, ["left"], "יום") + delta
+    # indexLeft = findColumnByStr(d, ["left"], "עד") + delta
+    img = img[indexTop:, indexLeft:indexRight]  # will change to more dynamic setting
     d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, config=config)
     d = d[d.text.notnull()]
     tops = d['top'].values
     trios = []
     for i in range(len(tops)):
-        closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=40) == True];
+        closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=40) == True]
         topVals = closeVals['top'].values
         if len(closeVals[['top', 'text']]) > 0:
             if len(closeVals['text'].values) >= 3:
@@ -94,7 +122,7 @@ def exportToTxt(textList):
 
 def listToText(textList):
     text = ""
-    print('text list' , textList)
+    print('text list', textList)
     for i in range(0, len(textList)):
         if len(textList[i]) == 3:
             text += f"{textList[i][2]}={textList[i][1]}-{textList[i][0]}"
