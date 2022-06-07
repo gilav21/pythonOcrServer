@@ -47,9 +47,10 @@ def findColumnByStr(ds, columns, cutting_str):
             val = 0
             for column in columns:
                 val += ds[column].values[i]
+            break
     return val
 
-def getTextFromImage(img, config="--psm 12", name=True):
+def getTextFromImage(img, config="--psm 12", name=True, cornersText={"top": "יום", "right": "יום", "left": "עד"}, deltas={"top": 0, "right": 10, "left": 0}):
     print('tesseract version', pytesseract.get_tesseract_version())
     if name:
         img = cv2.imread(img)
@@ -61,24 +62,22 @@ def getTextFromImage(img, config="--psm 12", name=True):
         print('Error In preprocess... , running without pre processing')
 
     d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, config=config, lang="heb")
-    delta = 10
-    indexTop = findColumnByStr(d, ["top", "height"], "יום")
-    indexRight = findColumnByStr(d, ["left", "width"], "יום") + delta
-    indexLeft = findColumnByStr(d, ["left", "width"], "עד")
-    # delta = 60
-    # indexTop = findColumnByStr(d, ["top"], "יום") + delta
-    # indexRight = findColumnByStr(d, ["left"], "יום") + delta
-    # indexLeft = findColumnByStr(d, ["left"], "עד") + delta
+    indexTop = findColumnByStr(d, ["top", "height"], cornersText["top"]) + deltas['top']
+    indexRight = findColumnByStr(d, ["left", "width"], cornersText["right"]) + deltas['right']
+    indexLeft = findColumnByStr(d, ["left", "width"], cornersText["left"]) + deltas['left']
     img = img[indexTop:, indexLeft:indexRight]  # will change to more dynamic setting
+    # cv2.imwrite('test1.png', img)
     d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, config=config)
     d = d[d.text.notnull()]
     tops = d['top'].values
     trios = []
     for i in range(len(tops)):
+        # closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=40) == True]
         closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=40) == True]
         topVals = closeVals['top'].values
         if len(closeVals[['top', 'text']]) > 0:
-            if len(closeVals['text'].values) >= 3:
+            # if len(closeVals['text'].values) >= 3:
+            if len(closeVals['text'].values) >= 2:
                 trios.append(closeVals['text'].values)
         d = d[d['top'].isin(topVals) == False]
     return processData(trios)
@@ -120,14 +119,20 @@ def exportToTxt(textList):
     file.close()
 
 
-def listToText(textList):
+def listToText(textList, hasDate= True):
     text = ""
     print('text list', textList)
     for i in range(0, len(textList)):
-        if len(textList[i]) == 3:
-            text += f"{textList[i][2]}={textList[i][1]}-{textList[i][0]}"
-            if i < len(textList) - 1:
-                text += "\n"
+        if hasDate:
+            if len(textList[i]) == 3:
+                text += f"{textList[i][2]}={textList[i][1]}-{textList[i][0]}"
+                if i < len(textList) - 1:
+                    text += "\n"
+        else:
+            if len(textList[i]) == 2:
+                text += f"{textList[i][1]}-{textList[i][0]}"
+                if i < len(textList) - 1:
+                    text += "\n"
     return text
 
 
