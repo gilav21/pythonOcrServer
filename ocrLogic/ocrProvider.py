@@ -60,7 +60,7 @@ def findColumnByStr(ds, columns, cutting_str):
 
 def getTextFromImage(img, config="--psm 12", name=True, cornersText={"top": "יום", "right": "יום", "left": "עד"},
                      deltas={"top": 0, "right": 10, "left": 0}, lang=None, atol=40):
-    config = '--tessdata-dir "ocrLogic/tessdata ' + config
+    config = '--tessdata-dir "ocrLogic/tessdata" ' + config
     print('tesseract version', pytesseract.get_tesseract_version())
     if name:
         img = cv2.imread(img)
