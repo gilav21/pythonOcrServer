@@ -20,11 +20,18 @@ def getNumOnly(s):
 def isIndex(item):
     return re.search("^\d{2}$", item)
 
+
+def isDate(item):
+    return re.search("^\d{2}\/\d{2}\/\d{4}", item)
+
+
 def removeExcess(item):
     if isinstance(item, float) and numpy.isnan(item):
         return None
     elif isIndex(item):
         return item
+    elif isDate(item):
+        return getNumOnly(item.split('/')[0])
     else:
         splitedItem = item.split(':')
         if len(item) > 1 and len(splitedItem) > 1:
@@ -50,15 +57,17 @@ def findColumnByStr(ds, columns, cutting_str):
             break
     return val
 
-def getTextFromImage(img, config="--psm 12", name=True, cornersText={"top": "יום", "right": "יום", "left": "עד"}, deltas={"top": 0, "right": 10, "left": 0}):
+
+def getTextFromImage(img, config="--psm 12", name=True, cornersText={"top": "יום", "right": "יום", "left": "עד"},
+                     deltas={"top": 0, "right": 10, "left": 0}, lang=None, atol=40):
     print('tesseract version', pytesseract.get_tesseract_version())
     if name:
         img = cv2.imread(img)
     # img = img[550: -300, 1200: -265]  # will change to more dynamic setting
     # cv2.imwrite('temp2.png', img)
-    try :
+    try:
         img = preprocessImage(img)
-    except :
+    except:
         print('Error In preprocess... , running without pre processing')
 
     d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, config=config, lang="heb")
@@ -66,14 +75,18 @@ def getTextFromImage(img, config="--psm 12", name=True, cornersText={"top": "י�
     indexRight = findColumnByStr(d, ["left", "width"], cornersText["right"]) + deltas['right']
     indexLeft = findColumnByStr(d, ["left", "width"], cornersText["left"]) + deltas['left']
     img = img[indexTop:, indexLeft:indexRight]  # will change to more dynamic setting
+    # =========================================
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.dilate(img, None, iterations=1)
+    # =========================================
     # cv2.imwrite('test1.png', img)
-    d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, config=config)
+    d = pytesseract.image_to_data(img, output_type=Output.DATAFRAME, lang=lang, config=config)
     d = d[d.text.notnull()]
     tops = d['top'].values
     trios = []
     for i in range(len(tops)):
         # closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=40) == True]
-        closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=40) == True]
+        closeVals = d[d['top'].apply(np.isclose, b=tops[i], atol=atol) == True]
         topVals = closeVals['top'].values
         if len(closeVals[['top', 'text']]) > 0:
             # if len(closeVals['text'].values) >= 3:
@@ -92,10 +105,30 @@ def cleanTrio(trio):
 
 def processData(trios):
     data = []
+    latestIndex = 0
     for i in range(len(trios)):
         finalTrio = cleanTrio(trios[i])
+        finalTrio = checkIndex(finalTrio, latestIndex+1)
+        if len(finalTrio) == 3:
+            latestIndex = int(finalTrio[2])
         data.append(finalTrio)
     return data
+
+
+def checkIndex(trio, index):
+    hasIndex = False
+    for i in range(len(trio)):
+        if isIndex(trio[i]):
+            indexIndex= i
+            hasIndex = True
+    if not hasIndex:
+        trio.append(index)
+    elif indexIndex != len(trio) -1:
+        indexValue = trio[indexIndex]
+        trio.remove(indexValue)
+        trio.append(indexValue)
+
+    return trio
 
 
 def fixListOrder(list):

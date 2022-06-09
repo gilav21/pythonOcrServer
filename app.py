@@ -14,12 +14,14 @@ types = {
     "sap": {
         "corners": {"top": "יום", "right": "יום", "left": "עד"},
         "deltas": {"top": 0, "right": 10, "left": 0},
+        "atol": 40,
         "hasDate": True
     },
     "alt1": {
-        "corners": {"top": "כניסה", "right": "כניסה", "left": 'סה"כ'},
-        "deltas": {"top": 15, "right": 12, "left": 25},
-        "hasDate": False
+        "corners": {"top": "תאריך", "right": "תאריך", "left": 'סה"כ'},
+        "deltas": {"top": 10, "right": 12, "left": 25},
+        "atol": 35,
+        "hasDate": True
     }
 }
 
@@ -30,6 +32,7 @@ def md5(fname):
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
 
 @app.route('/')
 def hello_world():
@@ -47,21 +50,25 @@ def getTextFromImagePath():
     fileName = 'hours.' + fileParts[len(fileParts) - 1]
     cv2.imwrite(fileName, image)
     print('hash', md5(fileName))
-    textList = getTextFromImage(fileName, name=True, cornersText=types[fileType]['corners'], deltas=types[fileType]['deltas'])
+    textList = getTextFromImage(fileName, name=True, cornersText=types[fileType]['corners'],
+                                deltas=types[fileType]['deltas'], atol=types[fileType]['atol'])
     # textList = getTextFromImage('05.22.jpeg', name=True, cornersText=types['alt1']['corners'],
     #                             deltas=types['alt1']['deltas'])
     text = listToText(textList, hasDate=types[fileType]['hasDate'])
     # os.remove('hours.png')
     return text
 
-def fitFormat(imageName, corners={"top": "יום", "right": "יום", "left": "עד"}, deltas={"top": 0, "right": 0, "left": 0}):
+
+def fitFormat(imageName, corners={"top": "יום", "right": "יום", "left": "עד"},
+              deltas={"top": 0, "right": 0, "left": 0}):
     # deltas = {"top": 15, "right": 12, "left": 25}
     max = 0
     results = {"top": 0, "right": 0, "left": 0}
     for tops in range(0, 30, 5):
         for rights in range(0, 30, 5):
             for lefts in range(0, 30, 5):
-                tempDeltas = {"top": deltas['top'] + tops, "right": deltas['right'] + rights, "left": deltas['left'] + lefts}
+                tempDeltas = {"top": deltas['top'] + tops, "right": deltas['right'] + rights,
+                              "left": deltas['left'] + lefts}
                 textList = getTextFromImage(imageName, name=True, cornersText=corners, deltas=tempDeltas)
                 filteredArr = list(filter(None, textList))
                 if len(filteredArr) > max:
@@ -71,6 +78,7 @@ def fitFormat(imageName, corners={"top": "יום", "right": "יום", "left": "�
                     results['left'] = lefts
 
     return results
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8000))
